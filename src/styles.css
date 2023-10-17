@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+/* colors */
+:root {  
+  --white: #fff;
+  --black: #000;
+  
+  --brand-dark: #011627;
+  --brand-light: #fdfffc;
+  --brand-green: #2ec4b6;
+  --brand-red: #e71d36;
+  --brand-orange: #ff9f1c;
+  
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

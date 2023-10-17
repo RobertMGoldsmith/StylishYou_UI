@@ -2,9 +2,19 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `
+    
+    <router-outlet></router-outlet>
+    
+    
+  `,
+  styles: [`
+    h1 {
+      color: var(--brand-red)
+    }
+  `]
 })
 export class AppComponent {
   title = 'StylishYou_UI';
 }
+  
