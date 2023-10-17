@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { GenderFormComponent } from './forms/gender-form/gender-form.component';
+import { BrandFormComponent } from './forms/brand-form/brand-form.component';
+import { ProductFormComponent } from './forms/product-form/product-form.component';
 
 const routes: Routes = [
   {path: 'home', component : HomeComponent},
@@ -11,7 +13,9 @@ const routes: Routes = [
   {path: 'gender/boys', component : GenderFormComponent, data: { gender: 'boys'} },
   {path: 'gender/girls', component : GenderFormComponent, data: { gender: 'girls'} },
   
+  {path: 'brand/:brandName', component : BrandFormComponent},
   
+  {path: 'product/:productName', component : ProductFormComponent},
   
   {path: '', pathMatch: 'full', redirectTo: 'home'},
   {path: '**', redirectTo: 'home'}

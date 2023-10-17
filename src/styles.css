@@ -1,4 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+/* ---------------------
+Global Styles
+-----------------------*/
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
 /* colors */
@@ -11,9 +13,69 @@
   --brand-green: #2ec4b6;
   --brand-red: #e71d36;
   --brand-orange: #ff9f1c;
-  
 }
 
 body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.logo {
+  width: 100px
+}
+
+.banner-main { background-color: var(--brand-dark);}
+.banner-men {background-color: var(--brand-green);}
+.banner-ladies {background-color: var(--brand-red);}
+.banner-kids {background-color: var(--brand-orange);}
+
+.banner-text {
+  text-align: right;
+  color: var(--brand-light);
+}
+
+/* ---------------------
+Navigation
+-----------------------*/
+
+.nav-link-gender {
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  padding: 1em;
+  border: 1px solid var(--brand-dark);
+  color: var(--brand-dark);
+  background-color: var(--brand-light);
+}
+
+.product-links,
+.brand-links { 
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav-link-product,
+.nav-link-brand {
+  text-decoration: none;
+  color: var(--brand-dark);
+  padding: 0.5em 2em 0.5em 0;
+}
+
+/* ---------------------
+Forms
+-----------------------*/
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+
+
