@@ -1,0 +1,122 @@
+[
+  {
+      "Item Code": "IC0000001",
+      "Gender": "Mens",
+      "Brands": "Brand A",
+      "Product Type": "Fleeces",
+      "Colour": "Beige",
+      "Product Description": "Winter Fleece",
+      "Size": "M",
+      "Price": "£23.50",
+      "Quantity": "10",
+      "Location": "London"
+  },
+  {
+      "Item Code": "IC0000002",
+      "Gender": "Mens",
+      "Brands": "Brand A",
+      "Product Type": "Hoodies",
+      "Colour": "Red",
+      "Product Description": "Front pocket hoodie",
+      "Size": "L",
+      "Price": "£18.99",
+      "Quantity": "56",
+      "Location": "Manchester"
+  },
+  {
+      "Item Code": "IC0000003",
+      "Gender": "Ladies",
+      "Brands": "Brand C",
+      "Product Type": "Dresses & Skirts",
+      "Colour": "Blue",
+      "Product Description": "Brand C Baby Blue Skirt",
+      "Size": "S/M/L//XL/XXL",
+      "Price": "£34.00",
+      "Quantity": "7",
+      "Location": "Birmingham"
+  },
+  {
+      "Item Code": "IC0000004",
+      "Gender": "Ladies",
+      "Brands": "Brand B",
+      "Product Type": "Leggings & Tights",
+      "Colour": "Tan",
+      "Product Description": "Tan tights",
+      "Size": "",
+      "Price": "£1.49",
+      "Quantity": "89",
+      "Location": "Liverpool"
+  },
+  {
+      "Item Code": "IC0000005",
+      "Gender": "Ladies",
+      "Brands": "Brand D",
+      "Product Type": "Sweatshirts",
+      "Colour": "Pink",
+      "Product Description": "Ladies Brand D pink sweatshirt",
+      "Size": "S/M/L//XL/XXL",
+      "Price": "£17.99",
+      "Quantity": "1245",
+      "Location": "Newcastle"
+  },
+  {
+      "Item Code": "IC0000006",
+      "Gender": "Boys",
+      "Brands": "Brand A",
+      "Product Type": "Polo Shirts",
+      "Colour": "Multi",
+      "Product Description": "Green and yellow striped polo by Brand A",
+      "Size": "S/M/L//XL/XXL",
+      "Price": "£9.99",
+      "Quantity": "321",
+      "Location": "Sheffield"
+  },
+  {
+      "Item Code": "IC0000007",
+      "Gender": "Boys",
+      "Brands": "Brand C",
+      "Product Type": "Shoes",
+      "Colour": "Black",
+      "Product Description": "Boys black school shoes",
+      "Size": "6/6.5/7/7.5/8/8.5/9/9.5/10/10.5/11/12/13",
+      "Price": "£65.00",
+      "Quantity": "23",
+      "Location": "Sheffield"
+  },
+  {
+      "Item Code": "IC0000008",
+      "Gender": "Girls",
+      "Brands": "Brand B",
+      "Product Type": "Shorts",
+      "Colour": "Pink",
+      "Product Description": "Brand B girls shorts (pink with white stripe)",
+      "Size": "S/M/L//XL/XXL",
+      "Price": "£14.50",
+      "Quantity": "132",
+      "Location": "Sheffield"
+  },
+  {
+      "Item Code": "IC0000009",
+      "Gender": "Girls",
+      "Brands": "Brand C",
+      "Product Type": "Sweatshirts",
+      "Colour": "Purple",
+      "Product Description": "Unicorn sequined girls top",
+      "Size": "S/M/L//XL/XXL",
+      "Price": "£8.99",
+      "Quantity": "77",
+      "Location": "Birmingham"
+  },
+  {
+      "Item Code": "IC0000010",
+      "Gender": "Girls",
+      "Brands": "Brand A",
+      "Product Type": "Tracksuit Bottoms",
+      "Colour": "Red",
+      "Product Description": "Brand A tracksuit pants - girls",
+      "Size": "S/M/L//XL/XXL",
+      "Price": "£12.95",
+      "Quantity": "297",
+      "Location": "Liverpool"
+  }
+]

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs';
 
 @Component({
   selector: 'gender-form',
@@ -75,6 +74,9 @@ import { filter } from 'rxjs';
                 ngModel
                 #product="ngModel"
               >
+                <option>
+                  Select product:
+                </option>
                 <option *ngFor="let product of allProducts">
                   {{ product }}
                 </option>
@@ -90,14 +92,84 @@ import { filter } from 'rxjs';
                 ngModel
                 #product="ngModel"
               >
+              <!-- Use clothes sizes (eg. S,M,L) unless 'Shoes' 
+                   are selected from the above option -->
+              <ng-container *ngIf="form.value.product !== 'Shoes' else shoeSizeSelect">
+                <option>
+                  Select size:
+                </option>
                 <option *ngFor="let size of clothesSizes">
                   {{ size }}
+                </option>
+              </ng-container>
+              
+              <ng-template #shoeSizeSelect>
+                <option>
+                  Select size:
+                </option>
+                <option *ngFor="let size of shoeSizes">
+                  {{ size }}
+                </option>
+              </ng-template>
+  
+              </select>
+            </label>
+            
+            <label class="form-label" for="colour">
+              <span>Colour</span>
+              <select
+                id="colour"
+                class="form-select"
+                name="colour"
+                ngModel
+                #product="ngModel"
+              >
+                <option>
+                  Select colour:
+                </option>
+                <option *ngFor="let colour of colours">
+                  {{ colour }}
                 </option>
               </select>
             </label>
             
+            <div class="row">
+              <label class="form-label col" for="priceMin">
+                <span>Price Min</span>
+                <input type="number" id="priceMin" class="form-control" min="0" max="5000" name="priceMin" ngModel #priceMin>
+              </label>
+              
+              <label class="form-label col" for="priceMax">
+                <span>Price Max</span>
+                <input type="number" id="priceMax" class="form-control" min="0" max="5000" name="priceMax" ngModel #priceMax>
+              </label>
+            </div>
             
-            <button type="submit" class="btn-primary">Find</button>
+            
+            <label class="form-label" for="brand">
+              <span>Brand</span>
+              <select
+                id="brand"
+                class="form-select"
+                name="brand"
+                ngModel
+                #product="ngModel"
+              >
+                <option>
+                  Select brand:
+                </option>
+                <option *ngFor="let brand of brands ">
+                  {{ brand }}
+                </option>
+              </select>
+            </label>
+            
+            <div class="mt-3">
+              <button type="submit" class="btn-find">Find</button>
+            </div>
+            
+            
+            
           </form>
         </div>
       </div>
@@ -108,20 +180,21 @@ import { filter } from 'rxjs';
     </div>
     <!-- end of main container -->
 
-   
-
-    
-    <p>{{ gender }}</p>
-    
+    <div class="container">
+      <div class="row">
+        <a routerLink="home" class="btn-home">Home</a>
+      </div>
+    </div>
+              
    
     
     <!-- results -->
     
    
     
-    <a routerLink="home" class="btn">Home</a>
     
-    <br>
+    
+
     
  
   `,
@@ -131,9 +204,7 @@ import { filter } from 'rxjs';
 export class GenderFormComponent {
   
   gender!: string
-  formData!: string
   
-  // !ALTER gender condition
   allProducts: string[] = [
     'Fleeces',
     'Hoodies',
@@ -163,6 +234,30 @@ export class GenderFormComponent {
   
   shoeSizes: string[] = [
     '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '12', '13'
+  ]
+  
+  colours: string[] = [
+    'Beige',
+    'Black',
+    'Blue',
+    'Green',
+    'Grey',
+    'Multi',
+    'Orange',
+    'Pink',
+    'Purple',
+    'Red',
+    'Silver',
+    'White',
+    'Yellow',
+    'Gold'
+  ]
+  
+  brands: string[] = [
+    'Brand A',
+    'Brand B',
+    'Brand C',
+    'Brand D'
   ]
 
   constructor(private route: ActivatedRoute) {}

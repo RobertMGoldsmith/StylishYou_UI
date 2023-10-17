@@ -74,8 +74,32 @@ Forms
   flex-direction: column;
 }
 
+.btn-find,
+.btn-home {
+  width: 100%;
+  padding: 0.5em 1em;
+  background-color: var(--brand-light);
+  border: solid 1px var(--brand-dark);
+  border-radius: 0.375rem;
+  
+}
 
+.btn-home {
+  text-decoration: none;
+  text-align: center;
+  color: var(--brand-dark);
+}
 
+.btn-find,
+.btn-home  {
+  transition-duration: 0.4s;
+}
+
+.btn-find:hover,
+.btn-home:hover  {
+  background-color: var(--brand-dark);
+  color: var(--brand-light);
+}
 
 
 
