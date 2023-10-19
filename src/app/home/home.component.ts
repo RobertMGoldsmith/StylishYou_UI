@@ -17,7 +17,7 @@ import { Component } from '@angular/core';
       <div class="row gx-4 gy-4">
         
         <div class="col-6 col-md-3 ">
-          <a routerLink="../gender/men" class="nav-link-gender">Mens</a>
+          <a routerLink="../gender/mens" class="nav-link-gender">Mens</a>
         </div>
         
         <div class="col-6 col-md-3 "> 
@@ -37,8 +37,8 @@ import { Component } from '@angular/core';
       
       <!-- Brand Links -->
       <div class="brand-links">
-        <a routerLink="../brand/Brand B" class="nav-link-brand">Brand B</a>
         <a routerLink="../brand/Brand A" class="nav-link-brand">Brand A</a>
+        <a routerLink="../brand/Brand B" class="nav-link-brand">Brand B</a>
         <a routerLink="../brand/Brand C" class="nav-link-brand">Brand C</a>
         <a routerLink="../brand/Brand D" class="nav-link-brand">Brand D</a>
       </div>
@@ -57,7 +57,6 @@ import { Component } from '@angular/core';
         <a routerLink="../product/Shorts" class="nav-link-product">Shorts</a>
         <a routerLink="../product/Sweatshirts" class="nav-link-product">Sweatshirts</a>
         <a routerLink="../product/Tracksuit Bottoms" class="nav-link-product">Tracksuit Bottoms</a>
-        <a routerLink="../product/Sweatshirts" class="nav-link-product">Sweatshirts</a>
         <a routerLink="../product/Tracksuits" class="nav-link-product">Tracksuits</a>
         <a routerLink="../product/Trousers" class="nav-link-product">Trousers</a>
         <a routerLink="../product/T-Shirts" class="nav-link-product">T-Shirts</a>
@@ -67,31 +66,14 @@ import { Component } from '@angular/core';
       
     </div>
     <!--  end of container -->
-    
-  
-    
-    
-    
-    
-    <!-- <a [routerlink]="">Ladies</a> -->
-    <!-- <a [routerlink]="">Boys</a> -->
-    <!-- <a [routerlink]="">Girls</a> -->
   `,
   styles: [
   ]
 })
 export class HomeComponent {
 
-  brands: string[] = [
-    'Brand A',
-    'Brand B',
-    'Brand C',
-    'Brand D',
-  ]
   
   constructor(){}
  
-  
-  
- 
+   
 }

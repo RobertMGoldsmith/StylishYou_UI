@@ -8,10 +8,8 @@ import { HomeComponent } from './home/home.component';
 import { GenderFormComponent } from './forms/gender-form/gender-form.component';
 import { BrandFormComponent } from './forms/brand-form/brand-form.component';
 import { ProductFormComponent } from './forms/product-form/product-form.component';
-import { GenderResultsComponent } from './results/gender-results/gender-results.component';
-import { ProductResultsComponent } from './results/product-results/product-results.component';
-import { BrandResultsComponent } from './results/brand-results/brand-results.component';
 
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -20,17 +18,13 @@ import { BrandResultsComponent } from './results/brand-results/brand-results.com
     HomeComponent,
     GenderFormComponent,
     BrandFormComponent,
-    ProductFormComponent,
-    GenderResultsComponent,
-    ProductResultsComponent,
-    BrandResultsComponent,
-
-    
+    ProductFormComponent, 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

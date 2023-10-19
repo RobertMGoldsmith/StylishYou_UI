@@ -1,86 +1,65 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { StaticDataService } from 'src/app/services/static-data.service';
 import { ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
+
+import { HttpService } from 'src/app/services/http.service';
+
 
 @Component({
   selector: 'gender-form',
   template: `
   
     <!-- banner -->
-    <div *ngIf="gender === 'men'" class="container-fluid banner-men">
+    <div class="container-fluid" [ngClass]="bannerClass()">
       <div class="container">
         <div class="row">
-          <div class="col">
-            <img src="/assets/StylishYou_Logo_Green.png" alt="Stylish You Men" class="col align-self-start logo"> 
+          <div class="col" [ngSwitch]="gender">
+            <img src="/assets/StylishYou_Logo_Green.png" alt="Stylish You" class="col align-self-start logo" *ngSwitchCase="'mens'"> 
+            <img src="/assets/StylishYou_Logo_Red.png" alt="Stylish You" class="col align-self-start logo" *ngSwitchCase="'ladies'"> 
+            <img src="/assets/StylishYou_Logo_Orange.png" alt="Stylish You" class="col align-self-start logo" *ngSwitchCase="'boys'"> 
+            <img src="/assets/StylishYou_Logo_Orange.png" alt="Stylish You" class="col align-self-start logo" *ngSwitchCase="'girls'"> 
           </div>
           <div class="col align-self-end banner-text">
-            <h1>Men</h1>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div *ngIf="gender === 'ladies'" class="container-fluid banner-ladies">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <img src="/assets/StylishYou_Logo_Red.png" alt="Stylish You Ladies" class="col align-self-start logo"> 
-          </div>
-          <div class="col align-self-end banner-text">
-            <h1>Ladies</h1>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div *ngIf="gender === 'boys'" class="container-fluid banner-kids">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <img src="/assets/StylishYou_Logo_Orange.png" alt="Stylish You Boys" class="col align-self-start logo"> 
-          </div>
-          <div class="col align-self-end banner-text">
-            <h1>Boys</h1>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div *ngIf="gender === 'girls'" class="container-fluid banner-kids">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <img src="/assets/StylishYou_Logo_Orange.png" alt="Stylish You Girls" class="col align-self-start logo"> 
-          </div>
-          <div class="col align-self-end banner-text">
-            <h1>Girls</h1>
+            <h1>{{ gender | titlecase }}</h1>
           </div>
         </div>
       </div>
     </div>
     
     <!-- main -->
-    <div class="container my-4">
+    <div class="container my-4" *ngIf="!showResultsState">
       <div class="row">
         <div class="col-md-8 col-12">
           <!-- form -->
-          <form class="form gender-form" #form="ngForm" (ngSubmit)="submitForm()">
+          <form class="form gender-form" #form="ngForm" (ngSubmit)="submitForm(form)">
             
             <label class="form-label" for="product">
               <span>Product Type</span>
               <select
-                id="product"
+                id="productType"
                 class="form-select"
-                name="product"
+                name="productType"
+                required
+                pattern="^(?!Select).*?(?<!:)$"
                 ngModel
-                #product="ngModel"
+                #productType="ngModel"
               >
                 <option>
                   Select product:
                 </option>
-                <option *ngFor="let product of allProducts">
+                <option *ngFor="let product of staticData.allProducts">
                   {{ product }}
                 </option>
               </select>
+              <ng-container *ngIf="productType.invalid && productType.touched">
+                <small class="form-validation-error" *ngIf="productType.errors?.['required']">
+                  Product type is required
+                </small>
+                <small class="form-validation-error" *ngIf="productType.errors?.['pattern']">
+                  Please select a product
+                </small>
+              </ng-container>
             </label>
             
             <label class="form-label" for="size">
@@ -89,62 +68,119 @@ import { ActivatedRoute } from '@angular/router';
                 id="size"
                 class="form-select"
                 name="size"
+                required
+                pattern="^(?!Select).*?(?<!:)$"
                 ngModel
-                #product="ngModel"
+                #size="ngModel"
               >
               <!-- Use clothes sizes (eg. S,M,L) unless 'Shoes' 
                    are selected from the above option -->
-              <ng-container *ngIf="form.value.product !== 'Shoes' else shoeSizeSelect">
-                <option>
-                  Select size:
-                </option>
-                <option *ngFor="let size of clothesSizes">
-                  {{ size }}
-                </option>
-              </ng-container>
-              
-              <ng-template #shoeSizeSelect>
-                <option>
-                  Select size:
-                </option>
-                <option *ngFor="let size of shoeSizes">
-                  {{ size }}
-                </option>
-              </ng-template>
+                <ng-container *ngIf="form.value.productType !== 'Shoes' else shoeSizeSelect">
+                  <option>
+                    Select size:
+                  </option>
+                  <option *ngFor="let size of staticData.clothesSizes">
+                    {{ size }}
+                  </option>
+                </ng-container>
+                
+                <ng-template #shoeSizeSelect>
+                  <option>
+                    Select size:
+                  </option>
+                  <option *ngFor="let size of staticData.shoeSizes">
+                    {{ size }}
+                  </option>
+                </ng-template>
   
               </select>
+              <ng-container *ngIf="size.invalid && size.touched">
+                <small class="form-validation-error" *ngIf="size.errors?.['required']">
+                  Size is required
+                </small>
+                <small class="form-validation-error" *ngIf="size.errors?.['pattern']">
+                  Please select a size
+                </small>
+              </ng-container>
             </label>
-            
+          
             <label class="form-label" for="colour">
               <span>Colour</span>
               <select
                 id="colour"
                 class="form-select"
                 name="colour"
+                required
+                pattern="^(?!Select).*?(?<!:)$"
                 ngModel
-                #product="ngModel"
+                #colour="ngModel"
               >
                 <option>
                   Select colour:
                 </option>
-                <option *ngFor="let colour of colours">
+                <option *ngFor="let colour of staticData.colours">
                   {{ colour }}
                 </option>
               </select>
+              <ng-container *ngIf="colour.invalid && colour.touched">
+                <small class="form-validation-error" *ngIf="colour.errors?.['required']">
+                  Colour is required
+                </small>
+                <small class="form-validation-error" *ngIf="colour.errors?.['pattern']">
+                  Please select a colour
+                </small>
+              </ng-container>
             </label>
             
             <div class="row">
               <label class="form-label col" for="priceMin">
                 <span>Price Min</span>
-                <input type="number" id="priceMin" class="form-control" min="0" max="5000" name="priceMin" ngModel #priceMin>
+                <div class="input-group">
+                  <span class="input-group-text">£</span>
+                  <input type="number" id="priceMin" class="form-control" 
+                         min="0" max="5000" [value]="minPriceNumber" name="priceMin" 
+                         required [(ngModel)]="minPriceNumber" #priceMin="ngModel">
+                </div>
+                <ng-container *ngIf="priceMin.invalid && priceMin.touched">
+                  <small class="form-validation-error" *ngIf="priceMin.errors?.['min']">
+                    Minimum amount is 0.01
+                  </small>
+                  <small class="form-validation-error" *ngIf="priceMin.errors?.['max']">
+                    Maximum amount is 5000
+                  </small>
+                  <small class="form-validation-error" *ngIf="priceMin.errors?.['required']">
+                    Minimum amount is required
+                  </small>
+                </ng-container>
+                
               </label>
               
               <label class="form-label col" for="priceMax">
                 <span>Price Max</span>
-                <input type="number" id="priceMax" class="form-control" min="0" max="5000" name="priceMax" ngModel #priceMax>
+                <div class="input-group">
+                <span class="input-group-text">£</span>
+                  <input type="number" id="priceMax" class="form-control" 
+                         min="0" max="5000" [value]="maxPriceNumber" name="priceMax" 
+                         required [(ngModel)]="maxPriceNumber" #priceMax="ngModel">
+                </div>
+                <ng-container *ngIf="priceMax.invalid && priceMax.touched">
+                  <small class="form-validation-error" *ngIf="priceMax.errors?.['min']">
+                  Minimum amount is 0.01
+                  </small>
+                  <small class="form-validation-error" *ngIf="priceMax.errors?.['max']">
+                    Maximum amount is 5000
+                  </small>
+                  <small class="form-validation-error" *ngIf="priceMax.errors?.['required']">
+                    Minimum amount is required
+                  </small>
+                </ng-container>
               </label>
-            </div>
-            
+              <ng-container *ngIf="maxPriceNumber < minPriceNumber">
+                <small class="form-validation-error">
+                  The maximum price cannot be smaller than the minimum price
+                </small>
+              </ng-container>
+            </div>       
             
             <label class="form-label" for="brand">
               <span>Brand</span>
@@ -152,138 +188,202 @@ import { ActivatedRoute } from '@angular/router';
                 id="brand"
                 class="form-select"
                 name="brand"
+                required
+                pattern="^(?!Select).*?(?<!:)$"
                 ngModel
-                #product="ngModel"
+                #brand="ngModel"
               >
                 <option>
                   Select brand:
                 </option>
-                <option *ngFor="let brand of brands ">
+                <option *ngFor="let brand of staticData.brands ">
                   {{ brand }}
                 </option>
               </select>
+              <ng-container *ngIf="brand.invalid && brand.touched">
+                <small class="form-validation-error" *ngIf="brand.errors?.['required']">
+                  Brand is required
+                </small>
+                <small class="form-validation-error" *ngIf="brand.errors?.['pattern']">
+                  Please select a brand
+                </small>
+              </ng-container>
             </label>
             
             <div class="mt-3">
-              <button type="submit" class="btn-find">Find</button>
+              <button type="submit" class="btn-find" [disabled]="maxPriceNumber < minPriceNumber">
+                Find
+              </button>
             </div>
-            
-            
-            
           </form>
+          
+          <!-- Uncomment below to see the realtime form's object and valid status -->
+          <!-- {{ form.value | json }}
+          <br>
+          {{ form.valid }} -->
+          
         </div>
       </div>
-      
-      
-      <br>
-       {{ form.value | json }}
     </div>
     <!-- end of main container -->
-
-    <div class="container">
-      <div class="row">
-        <a routerLink="home" class="btn-home">Home</a>
-      </div>
-    </div>
-              
-   
     
     <!-- results -->
-    
-   
-    
-    
-    
+    <div class="container mt-3 results"  *ngIf="showResultsState">
+      <div class="row">
+        <p>SQL Query String:</p>
+        <pre>
+        <code>{{ queryString }}</code>
+        </pre>
+        
+      </div>
+      <hr>
+      <div class="row">
+        <p>Proposed SQL Stored Procedure:</p>
+        <pre>
+          <code>
+          CREATE procedure [dbo].[searchGender]
 
-    
- 
+          @gender NVARCHAR(10)
+          @product_type NVARCHAR(255),
+          @size NVARCHAR(5),
+          @colour NVARCHAR(55),
+          @min_price Decimal(6,2),
+          @max_price Decimal(6,2),
+          @brand NVARCHAR(255)
+
+          AS
+
+          SELECT
+
+          op.product_description,
+          op.brands,
+          op.quantity,
+          CASE WHEN op.quantity = 0 THEN 'N' ELSE 'Y' AS Available_in_Store
+
+          FROM [dbo].[our_products] op
+
+          WHERE 
+
+          op.gender = @gender
+          AND op.productType = @product_type
+          AND op.size = @size 
+          AND op.colour = @colour 
+          AND op.price = BETWEEN @minPrice AND @max_price 
+          AND op.brand = @brand 
+          </code>
+        </pre>
+      </div>
+    </div>
+
+    <!--  Home & Back Buttons -->
+    <div class="container mb-5">
+      <div class="row">
+        <div class="col-md-8 col-12">
+          
+          <div class="row">
+            
+            <div class="col" *ngIf="showResultsState" (click)="toggleResultsState()">
+              <button  class="btn-back">
+                Back
+              </button>
+            </div>
+            
+            <div class="col">
+              <button  class="btn-home" routerLink="home" >
+                Home
+              </button>
+            </div>
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
   `,
   styles: [
   ]
 })
 export class GenderFormComponent {
   
+  @ViewChild('form') form!: NgForm;
+  
   gender!: string
   
-  allProducts: string[] = [
-    'Fleeces',
-    'Hoodies',
-    'Jackets and Coats',
-    'Jeans',
-    'Polo Shirts',
-    'Shirts',
-    'Shoes',
-    'Shorts',
-    'Sweatshirts',
-    'Tracksuit Bottoms',
-    'Tracksuits',
-    'Trousers',
-    'T-Shirts',
-    'Dresses & Skirts',
-    'Leggings & Tights'
-  ]
+  minPriceNumber: number = 10
+  maxPriceNumber: number = 1000
   
-  femaleOnlyProducts: string[] = [
-    'Dresses & Skirts',
-    'Leggings & Tights'
-  ]
+  queryString: string = ''
   
-  clothesSizes: string[] = [
-    'S', 'M', 'L', 'XL', 'XXL' 
-  ]
-  
-  shoeSizes: string[] = [
-    '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '12', '13'
-  ]
-  
-  colours: string[] = [
-    'Beige',
-    'Black',
-    'Blue',
-    'Green',
-    'Grey',
-    'Multi',
-    'Orange',
-    'Pink',
-    'Purple',
-    'Red',
-    'Silver',
-    'White',
-    'Yellow',
-    'Gold'
-  ]
-  
-  brands: string[] = [
-    'Brand A',
-    'Brand B',
-    'Brand C',
-    'Brand D'
-  ]
+  showResultsState: Boolean = false
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute, 
+    public staticData: StaticDataService,
+    private http: HttpService
+  ) {}
   
   ngOnInit(): void {
     // assign gender from previous link's route data
-    // Logos, colour schemes and form options will be conditional bases on the selected gender
+    // logos, colour schemes and form options will be conditional bases on the selected gender
     this.gender = this.route.snapshot.data['gender']
-    console.log(this.route.data)
-    console.log(this.gender)
+    // console.log(this.route.data)
+    // console.log(this.gender)
     
     // remove female clothing products if gender is Men or Boys
-    if(this.gender === 'men' || this.gender === 'boys'){
-      this.allProducts = this.removeFromArray(this.allProducts, this.femaleOnlyProducts)
+    if(this.gender === 'mens' || this.gender === 'boys'){
+      this.staticData.allProducts = this.removeFromArray(this.staticData.allProducts, this.staticData.femaleOnlyProducts)
     }
     
-    
+    // access ourProducts.json and filter collection by gender
+    this.http.readProducts().subscribe((response: any) => {
+      console.log(response)
+      const filteredProductsByGender = response.filter((el: any) => el.Gender.toLowerCase() === this.gender.toLowerCase()) 
+      console.log(filteredProductsByGender)
+    })
   }
   
+  // function to remove the contents of one array from another
   removeFromArray(array1: string[], array2: string[]){
     return array1.filter(element => !array2.includes(element))
   }
   
-  submitForm() {
-
+  // change the ngClass option (color) of the top banner based on gender
+  // see styles.css
+  bannerClass() {
+    const classes = {
+      'banner-mens': this.gender === 'mens',
+      'banner-ladies': this.gender === 'ladies',
+      'banner-kids': this.gender === 'boys' ||  this.gender === 'girls'
+    }
+    return classes
+  }
+  
+  toggleResultsState() {
+    this.showResultsState = !this.showResultsState
+  }
+  
+  submitForm(form: NgForm) {
+    // trigger validation errors on inputs not selected
+    form.form.markAllAsTouched()
+    console.log(form.form.value)
     
+    // toggle to results state
+    if(form.valid) {
+      this.toggleResultsState()
+    } 
+    
+    // create query string
+    this.queryString = `
+      exec searchGender @gender = ${this.gender},
+      @product_type = ${form.value.productType},
+      @size = ${form.value.size},
+      @colour = ${form.value.colour},
+      @min_price = ${form.value.priceMin},
+      @max_price = ${form.value.priceMax},
+      @brand = ${form.value.brand}
+    `
+
   }
   
 } 

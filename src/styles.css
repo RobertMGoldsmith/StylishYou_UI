@@ -29,7 +29,7 @@ img {
 }
 
 .banner-main { background-color: var(--brand-dark);}
-.banner-men {background-color: var(--brand-green);}
+.banner-mens {background-color: var(--brand-green);}
 .banner-ladies {background-color: var(--brand-red);}
 .banner-kids {background-color: var(--brand-orange);}
 
@@ -74,8 +74,13 @@ Forms
   flex-direction: column;
 }
 
+.form-validation-error {
+  color: var(--brand-red)
+}
+
 .btn-find,
-.btn-home {
+.btn-home,
+.btn-back {
   width: 100%;
   padding: 0.5em 1em;
   background-color: var(--brand-light);
@@ -91,15 +96,24 @@ Forms
 }
 
 .btn-find,
-.btn-home  {
+.btn-home,
+.btn-back  {
   transition-duration: 0.4s;
 }
 
 .btn-find:hover,
-.btn-home:hover  {
+.btn-home:hover,  
+.btn-back:hover  {
   background-color: var(--brand-dark);
   color: var(--brand-light);
 }
+.btn-find[disabled] {
+  color: #868686;
+  border: 1px solid #9c9c9c;
+}
 
-
+.btn-find[disabled]:hover {
+  cursor: not-allowed;
+  background-color: var(--brand-light);
+}
 
