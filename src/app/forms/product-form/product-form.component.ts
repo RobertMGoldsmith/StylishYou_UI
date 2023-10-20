@@ -362,7 +362,6 @@ export class ProductFormComponent {
       @min_price = ${form.value.priceMin},
       @max_price = ${form.value.priceMax},
     `
-
   }
   
   

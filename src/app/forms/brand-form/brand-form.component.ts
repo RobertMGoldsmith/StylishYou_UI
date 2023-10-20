@@ -330,6 +330,7 @@ export class BrandFormComponent {
     this.maleOnlyProducts = this.removeFromArray(this.staticData.allProducts, this.staticData.femaleOnlyProducts)
   }
   
+  
   // function to remove the contents of one array from another
   removeFromArray(array1: string[], array2: string[]){
     return array1.filter(element => !array2.includes(element))

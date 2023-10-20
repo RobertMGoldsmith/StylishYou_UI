@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { StaticDataService } from 'src/app/services/static-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
@@ -48,7 +48,7 @@ import { HttpService } from 'src/app/services/http.service';
                 <option>
                   Select product:
                 </option>
-                <option *ngFor="let product of staticData.allProducts">
+                <option *ngFor="let product of genderSpecificProducts">
                   {{ product }}
                 </option>
               </select>
@@ -94,7 +94,7 @@ import { HttpService } from 'src/app/services/http.service';
                 </ng-template>
   
               </select>
-              <ng-container *ngIf="size.invalid && size.touched">
+              <ng-container *ngIf="size.invalid && size.touched ">
                 <small class="form-validation-error" *ngIf="size.errors?.['required']">
                   Size is required
                 </small>
@@ -158,7 +158,7 @@ import { HttpService } from 'src/app/services/http.service';
               <label class="form-label col" for="priceMax">
                 <span>Price Max</span>
                 <div class="input-group">
-                <span class="input-group-text">£</span>
+                  <span class="input-group-text">£</span>
                   <input type="number" id="priceMax" class="form-control" 
                          min="0" max="5000" [value]="maxPriceNumber" name="priceMax" 
                          required [(ngModel)]="maxPriceNumber" #priceMax="ngModel">
@@ -306,14 +306,14 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class GenderFormComponent {
   
-  @ViewChild('form') form!: NgForm;
-  
   gender!: string
   
   minPriceNumber: number = 10
   maxPriceNumber: number = 1000
   
   queryString: string = ''
+  
+  genderSpecificProducts: string[] = []
   
   showResultsState: Boolean = false
 
@@ -328,19 +328,28 @@ export class GenderFormComponent {
     // logos, colour schemes and form options will be conditional bases on the selected gender
     this.gender = this.route.snapshot.data['gender']
     // console.log(this.route.data)
-    // console.log(this.gender)
+    console.log(this.gender)
     
-    // remove female clothing products if gender is Men or Boys
-    if(this.gender === 'mens' || this.gender === 'boys'){
-      this.staticData.allProducts = this.removeFromArray(this.staticData.allProducts, this.staticData.femaleOnlyProducts)
-    }
+    // set appropriate gendered products
+    this.setGenderedProducts()
     
     // access ourProducts.json and filter collection by gender
     this.http.readProducts().subscribe((response: any) => {
+      // log full response
       console.log(response)
       const filteredProductsByGender = response.filter((el: any) => el.Gender.toLowerCase() === this.gender.toLowerCase()) 
+      // log filtered response
       console.log(filteredProductsByGender)
     })
+  }
+  
+  // remove female clothing products if gender is Men or Boys
+  setGenderedProducts(){
+    if(this.gender === 'mens' || this.gender === 'boys'){
+      this.genderSpecificProducts = this.removeFromArray(this.staticData.allProducts, this.staticData.femaleOnlyProducts)
+    } else {
+      this.genderSpecificProducts = this.staticData.allProducts
+    }
   }
   
   // function to remove the contents of one array from another
@@ -364,8 +373,10 @@ export class GenderFormComponent {
   }
   
   submitForm(form: NgForm) {
+    
     // trigger validation errors on inputs not selected
     form.form.markAllAsTouched()
+    
     console.log(form.form.value)
     
     // toggle to results state
@@ -383,8 +394,9 @@ export class GenderFormComponent {
       @max_price = ${form.value.priceMax},
       @brand = ${form.value.brand}
     `
-
   }
+  
+  
   
 } 
  

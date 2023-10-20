@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { tap, of, map, catchError, throwError, retryWhen, delay, take } from 'rxjs';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -15,10 +13,5 @@ export class HttpService {
     return this.http.get('assets/ourProducts.json')
   }
 
-  
-
-  
-  
-  
   
 }
